@@ -36,11 +36,11 @@ class SearchWord(UserPermisions):
       print(e)
       return Response("An error occured", status=status.HTTP_400_BAD_REQUEST)
     
-class SavedList(UserPermisions):
+class SavedWords(UserPermisions):
   def get(self, request):
     # Retrieve all instances from the Word mode for that specific user
-    words = Word.objects.filter(user=request.user)
-    serializer = WordSerializer(words, many=True)
+    word = Word.objects.filter(user=request.user)
+    serializer = WordSerializer(word, many=True)
     return Response(serializer.data)
   
   def delete(self, request, word_id):

@@ -10,25 +10,25 @@ from rest_framework.response import Response
 from django.shortcuts import render
 
 class StartConversation(UserPermisions):
-
   def get(self, request, word):
-    pre_prompt = f"Could you break down the meaning of {word} in a way that's easy to understand and provide an example to illustrate its usage?"
-    # Generate AI response based on the pre_prompt
-    ai_response = generate_text(pre_prompt)
-
-    # Retrieve or create the Word instance
-    word_instance, ceated = Word.objects.get_or_create(word=word, user=request.user)
-
-    # Create a Conversation instance and associate it with the Word
-    conversation = Conversation.objects.create(
-        user=request.user,
-        user_input=pre_prompt,
-        ai_response=ai_response,
-        related_word=word_instance,
-    )
-    # Serialize the conversation for the API response
-    serializer = ConversationSerializer(conversation)
-
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    try:
+      pre_prompt = f"Could you break down the meaning of {word} in a way that's easy to understand and provide an example to illustrate its usage?"
+      # Generate AI response based on the pre_prompt
+      ai_response = generate_text(pre_prompt)
+      # Retrieve or create the Word instance
+      word_instance, created = Word.objects.get_or_create(word=word, user=request.user)
+      # Create a Conversation instance and associate it with the Word
+      conversation = Conversation.objects.create(
+          user=request.user,
+          user_input=pre_prompt,
+          ai_response=ai_response,
+          related_word=word_instance,
+      )
+      # Serialize the conversation for the API response
+      serializer = ConversationSerializer(conversation)
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        print(e)
+        return Response("An error occurred", status=status.HTTP_400_BAD_REQUEST)
 
     

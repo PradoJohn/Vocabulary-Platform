@@ -6,6 +6,3 @@ class Word(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # From Django User default model
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='words')
-
-    def __str__(self):
-        return self.word

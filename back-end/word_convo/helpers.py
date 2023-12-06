@@ -3,7 +3,6 @@ from django.conf import settings
 from back_end_config.settings import env
 
 openai.api_key = env.get("OPENAI_KEY")
-print(f"API Key: {openai.api_key}")
 
 def generate_text(prompt):
     response = openai.Completion.create(
