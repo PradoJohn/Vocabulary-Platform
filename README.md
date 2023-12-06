@@ -42,3 +42,13 @@ Stretch Learning
 2.	Interactive Conversations (Optional): Allow users to engage in interactive conversations with a virtual tutor powered by GPT-3. Users can practice using newly learned words in different scenarios.
 3.	Dynamic Learning Prompts: Utilize OpenAI to dynamically generate learning prompts or questions related to the words in the user's vocabulary list. This enhances engagement and understanding.
 4.	Customized Learning Paths (Optional): Leverage OpenAI to analyze user interactions and generate personalized learning paths or content recommendations. For example, if a user struggles with certain types of words, the system could adapt the learning materials accordingly.
+
+
+Dependencies:
+
+pip install django
+pip install python-dotenv
+pip install requests
+pip install psycopg2
+pip install djangrestframework
+pip install openai==0.28
