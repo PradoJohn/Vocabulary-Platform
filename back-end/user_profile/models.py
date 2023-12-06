@@ -3,11 +3,7 @@ from django.contrib.auth.models import User
 
 # class UserProfile(models.Model):
 #     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     display_name = models.CharField(max_length=50, blank=True, null=True)
 #     is_premium = models.BooleanField(default=False)
-
-    # Add more fields for additional user-specific features if needed
-
 
 # class Word(models.Model):
 #     word = models.CharField(max_length=100)

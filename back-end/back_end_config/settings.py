@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'user_profile',
+    'word_app',
 ]
 
 MIDDLEWARE = [
