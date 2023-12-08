@@ -10,10 +10,9 @@ from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
-
 # Custom Imports
 from .serializers import UserSerializer
-
+from .models import UserProfile
 
 class SignUp(APIView):
   def post(self, request):
@@ -21,13 +20,22 @@ class SignUp(APIView):
       serializer = UserSerializer(data=request.data)
       if serializer.is_valid():
         user = serializer.save()
+
+        # Create a user profile for the newly created user
+        UserProfile.objects.create(user=user, is_premium=False)
         token = Token.objects.create(user=user)
-        print("User:", user)
-        print("Token:", token)
-        return Response({"username": user.username, "token": token.key}, status=status.HTTP_201_CREATED)
+
+        # Fetch the user profile to get is_premium value
+        user_profile = UserProfile.objects.get(user=user)
+
+        return Response({
+          "username": user.username,
+          "token": token.key,
+          "is_premium": user_profile.is_premium,
+        }, status=status.HTTP_201_CREATED)
     except Exception as e:
-      print("Error:", e)
-      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        print("Error:", e)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
 class LogIn(APIView):
@@ -59,27 +67,56 @@ class LogOut(UserPermisions):
     return Response("Logged out", status=status.HTTP_204_NO_CONTENT)
   
 
-class Account(UserPermisions):  # Assuming UserPermisions is a valid class
+class Account(UserPermisions):
+    def get_user_profile(self, user):
+      try:
+        return user.userprofile # "userprofile is lowercased Model"
+      except Exception as e:
+        print(e)
+        return Response("An Error occured", status=status.HTTP_404_NOT_FOUND)
+
     # to display user data
     def get(self, request):
-        user = UserSerializer(instance=request.user)
-        return Response(user.data)
+      try:
+        user_profile = self.get_user_profile(request.user)
+
+        # Serialize the user and user profile data
+        user_serializer = UserSerializer(instance=request.user)
+        user_data = user_serializer.data
+
+        # Extend the serialized data with is_premium, only if the user profile 
+        user_data['is_premium'] = user_profile.is_premium
+
+        return Response(user_data)
+      except Exception as e:
+        return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     # to update user data including password
     def put(self, request):
-      # Serialize the user data excluding the password
-      user_data = {key: value for key, value in request.data.items() if key != 'password'}
-      user = UserSerializer(instance=request.user, data=user_data, partial=True)
+      user_profile = self.get_user_profile(request.user)
 
-      if user.is_valid():
-        # Update user data excluding the password
-        user.save()
-        # Check if a new password is provided
-        new_password = request.data.get('password')
-        if new_password:
-          # Set the new password and save the user
-          request.user.password = make_password(new_password)
-          request.user.save()
+      if user_profile:
+        # Serialize the user data excluding the password
+        user_data = {key: value for key, value in request.data.items() if key != 'password'}
+        user_serializer = UserSerializer(instance=request.user, data=user_data, partial=True)
 
-        return Response(user.validated_data)  # Return validated data
-      return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
+        if user_serializer.is_valid():
+          user_serializer.save()
+
+          # Check user premium
+          is_premium = request.data.get('is_premium')
+          if is_premium is not None:
+            user_profile.is_premium = is_premium
+            user_profile.save()
+
+          # Check if a new password is provided
+          new_password = request.data.get('password')
+          if new_password:
+            # Set the new password and save the user
+            request.user.set_password(new_password)
+            request.user.save()
+
+          return Response({"user": user_serializer.validated_data, "is_premium": is_premium}, status=status.HTTP_202_ACCEPTED)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+      else:
+        return Response("User Profile Not Found", status=status.HTTP_404_NOT_FOUND)

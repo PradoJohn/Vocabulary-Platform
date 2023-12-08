@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     is_premium = models.BooleanField(default=False)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    is_premium = models.BooleanField(default=False)
 
 # class Word(models.Model):
 #     word = models.CharField(max_length=100)

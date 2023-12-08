@@ -11,5 +11,5 @@ def generate_text(prompt):
         max_tokens=150,
         temperature=0.7,
     )
-    print(f"Response: {response}")
+    # print(f"Response: {response}") 
     return response.choices[0].text.strip()

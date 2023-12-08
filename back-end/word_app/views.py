@@ -29,12 +29,21 @@ class SearchWord(UserPermisions):
   # Allowing User to save the word 
   def post(self, request, word):
     try:
-      new_word = Word.objects.create(word=word, user=request.user)
-      serializer = WordSerializer(new_word)
-      return Response(serializer.data)
+      # Check if the word exist in this endpoint 
+      endpoint = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+      response = requests.get(endpoint)
+
+      if response.ok:
+          # Assuming Word and WordSerializer are defined properly
+          new_word = Word.objects.create(word=word, user=request.user)
+          serializer = WordSerializer(new_word)
+          return Response(serializer.data)
+      else:
+          return Response({'error': "Word not Found"}, status=response.status_code)
     except Exception as e:
-      print(e)
-      return Response("An error occured", status=status.HTTP_400_BAD_REQUEST)
+          print(e)
+          return Response("An error occurred", status=status.HTTP_400_BAD_REQUEST)
+    
     
 class SavedWords(UserPermisions):
   def get(self, request):
