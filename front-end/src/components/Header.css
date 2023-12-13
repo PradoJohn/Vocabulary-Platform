@@ -1,0 +1,48 @@
+
+
+.navbar-brand{
+  font-weight: bold;
+  text-shadow: 1px 1px 10px rgb(53, 53, 192);
+}
+
+/* Custom CSS */
+.custom-dropdown .dropdown-toggle::after {
+  content: none;
+}
+
+.custom-dropdown .dropdown-toggle::before {
+  content: "▼";
+  margin-right: 0.3rem;
+}
+
+.custom-dropdown .dropdown-menu {
+  position: absolute;
+}
+
+.custom-dropdown .dropdown-menu a {
+  color: #333;
+  background-color: #fff;
+}
+
+
+.nav-link{
+  font-weight: bold;
+}
+
+.nav-container{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 3vmin;
+  padding-right: 3vmin;
+}
+
+.navbar-nav{
+  flex-grow: 2;
+  display: flex;
+  flex-direction: row;
+}
+
+.demo-link{
+  margin-right: 10px;
+}

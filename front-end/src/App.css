@@ -1,0 +1,28 @@
+.container{
+  display: flex;
+  justify-content: center;
+
+}
+
+.card-body{
+  padding: 2vmin;
+  margin: 2vmin;
+  max-width: 500px;
+}
+
+.navbar{
+  box-shadow: 1px 1px 10px rgb(29, 29, 29);
+  font-size: large;
+}
+
+#root{
+  font-size: large;
+}
+
+.account-header{
+  width: 500px;
+}
+
+.card{
+  margin-top: 25px;
+}

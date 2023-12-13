@@ -1,5 +1,5 @@
 # Custom Imports
-from user_profile.views import UserPermisions
+from user_profile.views import UserPermissions
 from .helpers import *
 from .serializer import Conversation, ConversationSerializer
 from word_app.serializers import Word, WordSerializer
@@ -12,7 +12,7 @@ from django.shortcuts import render
 import re
 from spellchecker import SpellChecker
 
-class StartConversation(UserPermisions):
+class StartConversation(UserPermissions):
   # Get user from UserProfile model
   def get_user_profile(self, user):
     try:

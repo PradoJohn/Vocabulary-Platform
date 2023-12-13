@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 # Custom Imports
 from .serializers import UserSerializer
@@ -24,15 +24,17 @@ class SignUp(APIView):
         # Create a user profile for the newly created user
         UserProfile.objects.create(user=user, is_premium=False)
         token = Token.objects.create(user=user)
-
-        # Fetch the user profile to get is_premium value
+        
+        # get the user profile to get is_premium value
         user_profile = UserProfile.objects.get(user=user)
-
+        login(request, user)
         return Response({
-          "username": user.username,
+          "user": user.username,
           "token": token.key,
           "is_premium": user_profile.is_premium,
         }, status=status.HTTP_201_CREATED)
+      else:
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         print("Error:", e)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -48,26 +50,28 @@ class LogIn(APIView):
 
       if user:
         token, created = Token.objects.get_or_create(user=user)
-        return Response({"username": user.username, "user-token": token.key}, status=status.HTTP_200_OK)
+        login(request, user)
+        return Response({"user": user.username, "token": token.key}, status=status.HTTP_200_OK)
       else:
-        return Response("Invalid Credentials", status=status.HTTP_401_UNAUTHORIZED)
+        return Response("Invalid Credentials", status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
       print(e)
       return Response("Something went wrong", status=status.HTTP_400_BAD_REQUEST)
 
 # Reusable super class for permission and authenticating User
-class UserPermisions(APIView):
+class UserPermissions(APIView):
   authentication_classes=[TokenAuthentication]
   permission_classes=[IsAuthenticated]
 
 
-class LogOut(UserPermisions):
+class LogOut(UserPermissions):
   def post(self, request):
     request.user.auth_token.delete()
-    return Response("Logged out", status=status.HTTP_204_NO_CONTENT)
+    logout(request)
+    return Response(status=status.HTTP_204_NO_CONTENT)
   
 
-class Account(UserPermisions):
+class Account(UserPermissions):
     def get_user_profile(self, user):
       try:
         return user.userprofile # "userprofile is lowercased Model"

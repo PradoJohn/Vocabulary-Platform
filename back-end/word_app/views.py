@@ -1,6 +1,6 @@
 
 # custom imports 
-from user_profile.views import UserPermisions
+from user_profile.views import UserPermissions
 from .serializers import WordSerializer
 from .models import Word
 
@@ -11,7 +11,7 @@ from rest_framework import status
 import requests
 
 # To allow Users search a word
-class SearchWord(UserPermisions):
+class SearchWord(UserPermissions):
   def get(self, request, word):
     try:
       endpoint=f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
@@ -29,23 +29,27 @@ class SearchWord(UserPermisions):
   # Allowing User to save the word 
   def post(self, request, word):
     try:
-      # Check if the word exist in this endpoint 
-      endpoint = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-      response = requests.get(endpoint)
+      # Check if the word exist in this endpoint
+      word_exist = Word.objects.filter(word=word).exists()
+      if not word_exist:
+        endpoint = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
+        response = requests.get(endpoint)
 
-      if response.ok:
-          # Assuming Word and WordSerializer are defined properly
-          new_word = Word.objects.create(word=word, user=request.user)
-          serializer = WordSerializer(new_word)
-          return Response(serializer.data)
+        if response.ok:
+            # Assuming Word and WordSerializer are defined properly
+            new_word = Word.objects.create(word=word, user=request.user)
+            serializer = WordSerializer(new_word)
+            return Response(serializer.data)
+        else:
+            return Response({'error': "Word not Found"}, status=response.status_code)
       else:
-          return Response({'error': "Word not Found"}, status=response.status_code)
+          return Response("Word Exist", status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
           print(e)
           return Response("An error occurred", status=status.HTTP_400_BAD_REQUEST)
     
     
-class SavedWords(UserPermisions):
+class SavedWords(UserPermissions):
   def get(self, request):
     # Retrieve all instances from the Word mode for that specific user
     word = Word.objects.filter(user=request.user)
