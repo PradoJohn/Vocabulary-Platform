@@ -34,9 +34,9 @@ const SignUP =({setUser, existingUser, setExistingUser}) => {
   return(
 
     <>
-      <CardBody>
+      <CardBody id="sign-forms">
         <Form onSubmit={(e) => sign_up(e)}>
-        <h4 className="text-center">Sign Up</h4>
+        <h4 className="text-center mt-3">Sign Up</h4>
         <Form.Group className="mb-3">
           <Form.Label>Username</Form.Label>
           <Form.Control

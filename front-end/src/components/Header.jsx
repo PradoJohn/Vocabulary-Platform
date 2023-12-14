@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { api } from "../utilities";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, DropdownButton, Dropdown, ButtonGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { TbVocabulary, TbPremiumRights  } from "react-icons/tb";
+import { IoSearch } from "react-icons/io5";
+
 import './Header.css';
 
-const Header = ({ user, setUser }) => {
+const Header = ({ user, setUser, isPremium }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -22,30 +25,42 @@ const Header = ({ user, setUser }) => {
     }
   };
 
-
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <div className="nav-container">
-          <div>
+      <Navbar expand="lg" className="bg-body-tertiary p-3">
+        <Container>
             <Navbar.Brand as={Link} to="/">WordVibe</Navbar.Brand>
-          </div>
               {user ? (
-                  <div className="navbar-nav">
-                    <div className="demo-link">
-                    <Nav.Link as={Link} to="/demo/">Demo</Nav.Link>
+                  <>
+                    <div className="links">
+                      <Nav.Link as={Link} to="/demo/"><IoSearch size={30} /></Nav.Link>
+                      <Nav.Link as={Link} to="/premium/">
+                        {isPremium ? <TbVocabulary size={30} /> : null}
+                      </Nav.Link>
+                      <Nav.Link as={Link} to="/premium/">
+                        {isPremium ? <TbPremiumRights size={30}/> : null}
+                      </Nav.Link>
                     </div>
-                    <NavDropdown title={user} id="basic-nav-dropdown" className="custom-dropdown">
-                      <NavDropdown.Item as={Link} to="/account/">Account</NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/settings/">Settings</NavDropdown.Item>
-                      <NavDropdown.Divider />
-                      <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-                    </NavDropdown>
-                  </div>
+                    <div className="navbar-nav">  
+                      <DropdownButton
+                        as={ButtonGroup}
+                        key="start"
+                        className={"custom-dropdown"}
+                        drop="start"
+                        variant="transparent"
+                        title={<strong style={{fontSize:"18px"}}>{user}</strong>}
+                      >
+                        <Dropdown.Item as={Link} to="/account/">Account</Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/settings/">Settings</Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                      </DropdownButton>
+                    </div>
+                  </>
               ) : (
                 <Nav.Link as={Link} to="/register/">Login</Nav.Link>
               )}
-        </div>
+        </Container>
       </Navbar>
     </>
   );

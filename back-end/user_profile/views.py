@@ -120,7 +120,7 @@ class Account(UserPermissions):
             request.user.set_password(new_password)
             request.user.save()
 
-          return Response({"user": user_serializer.validated_data, "is_premium": is_premium}, status=status.HTTP_202_ACCEPTED)
+          return Response(user_serializer.validated_data, status=status.HTTP_202_ACCEPTED)
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
       else:
         return Response("User Profile Not Found", status=status.HTTP_404_NOT_FOUND)

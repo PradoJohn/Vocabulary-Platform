@@ -1,45 +1,58 @@
-import { api } from "../utilities";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Form, Card, CardHeader, Row, Button } from "react-bootstrap"; // Import Form and Button components
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Card, CardBody,CardHeader,Row } from "react-bootstrap";
+import { api } from "../utilities";
 
 const SettingsPage = () => {
   const navigate = useNavigate();
   const { user, setUser } = useOutletContext();
-  const [currentUsername, setCurrentUsername] = useState(user);
-  const [isPremium, setIsPremium] = useState(false); // State for the premium toggle
+  const [newUsername, setNewUsername] = useState("");
 
-  const getAccountInfo = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      api.defaults.headers.common["Authorization"] = `Token ${token}`;
-      let response = await api.get("users/account/");
-      const { username, premium } = response.data;
-      setCurrentUsername(username);
-      setIsPremium(premium); // Set the premium status from the API response
+  const changeUsername = async () => {
+    try {
+      const response = await api.put("users/account/", {
+        username: newUsername,
+      });
+
+      if (response.status === 200) {
+        // Update the user object with the new username
+        setUser({ ...user, username: newUsername });
+      }
+
+    } catch (error) {
+      console.error("Error changing username:", error);
     }
   };
 
   useEffect(() => {
     if (!user) {
       navigate("/register/");
-    } else {
-      getAccountInfo();
     }
   }, [user, navigate]);
 
-
-
   return (
     <>
-    <Row>
-      <Card>
-        <CardHeader className="account-header"><h2>Manage Account</h2></CardHeader>
-        <CardBody>
-          
-        </CardBody>
-      </Card>
-    </Row>
+      <Row>
+        <Card>
+          <CardHeader><h3 className="text-center mt-3">Change Username</h3></CardHeader>
+          <Card.Body id="sign-forms">
+            <Form onSubmit={(e) => e.preventDefault()}> {/* Prevent the default form submission */}
+              <Form.Group className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  type="text"
+                  placeholder="New Username"
+                />
+              </Form.Group>
+              <Button variant="primary" onClick={changeUsername}>
+                Change Username
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Row>
     </>
   );
 };

@@ -1,0 +1,28 @@
+#search-bar {
+  padding: 10px;
+  margin: 20px 1px 10px 1px;
+  box-shadow: 1px 1px 5px gray;
+  margin-right: 10px;
+  width: 65%;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+
+}
+
+#search-button {
+  padding: 10px 20px;
+  background-color: #2e5e92;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.search-demo-row{
+  display: flex;
+  flex-direction: column;
+}
+
+#search-container{
+  text-align: center;
+}

@@ -5,6 +5,7 @@ import AccountPage from "./pages/AccountPage.jsx"
 import { RegisterPage } from "./pages/RegisterPage.jsx"
 import ChangeUserPassword from "./pages/SettingsPage.jsx"
 import DemoPage from "./pages/DemoPage.jsx"
+import PremiumPage from "./pages/PremiumPage.jsx"
 
 const router = createBrowserRouter([
 
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path:"demo/",
         element: <DemoPage/>
+      },
+      {
+        path:"premium/",
+        element:<PremiumPage/>
       }
     ]
   }

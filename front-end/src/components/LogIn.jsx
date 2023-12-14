@@ -17,12 +17,12 @@ const LogIn =({setUser, existingUser, setExistingUser}) => {
         username: username,
         password: password,
       });
-      console.log("Response status code:", response.status);
+      // console.log("Response status code:", response.status);
       if (response.status === 200){
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`
-        navigate("/")
+        navigate("/demo/")
       } 
     }catch(err){
       if (err.response.status === 400){
@@ -35,9 +35,9 @@ const LogIn =({setUser, existingUser, setExistingUser}) => {
   return(
 
     <>
-      <CardBody>
+      <CardBody id="sign-forms">
       <Form onSubmit={(e) => log_in(e)}>
-      <h4 className="text-center"> Log In</h4>
+      <h4 className="text-center mt-3"> Log In</h4>
       <Form.Group className="mb-3">
         <Form.Label>Username</Form.Label>
         <Form.Control
