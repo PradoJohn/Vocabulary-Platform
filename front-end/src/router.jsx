@@ -5,7 +5,8 @@ import AccountPage from "./pages/AccountPage.jsx"
 import { RegisterPage } from "./pages/RegisterPage.jsx"
 import ChangeUserPassword from "./pages/SettingsPage.jsx"
 import DemoPage from "./pages/DemoPage.jsx"
-import PremiumPage from "./pages/PremiumPage.jsx"
+import CollectionPage from "./pages/CollectionPage.jsx"
+import PremiumShop from "./pages/PremiumShop.jsx"
 
 const router = createBrowserRouter([
 
@@ -35,9 +36,14 @@ const router = createBrowserRouter([
         element: <DemoPage/>
       },
       {
-        path:"premium/",
-        element:<PremiumPage/>
+        path:"collection/",
+        element:<CollectionPage/>
+      },
+      {
+        path:"premium_shop/",
+        element:<PremiumShop/>
       }
+
     ]
   }
 

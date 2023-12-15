@@ -51,7 +51,7 @@ class LogIn(APIView):
       if user:
         token, created = Token.objects.get_or_create(user=user)
         login(request, user)
-        return Response({"user": user.username, "token": token.key}, status=status.HTTP_200_OK)
+        return Response({"user": user.username, "token": token.key, "is_premium": user.userprofile.is_premium}, status=status.HTTP_200_OK)
       else:
         return Response("Invalid Credentials", status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
@@ -120,7 +120,7 @@ class Account(UserPermissions):
             request.user.set_password(new_password)
             request.user.save()
 
-          return Response(user_serializer.validated_data, status=status.HTTP_202_ACCEPTED)
+          return Response(user_serializer.validated_data, status=status.HTTP_200_OK)
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
       else:
         return Response("User Profile Not Found", status=status.HTTP_404_NOT_FOUND)

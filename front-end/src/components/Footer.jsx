@@ -1,18 +1,9 @@
 import { Row } from "react-bootstrap";
-
+import './Footer.css'
 const Footer = () => {
-  const footerStyle = {
-    position: "fixed",
-    bottom: "0",
-    left: "0",
-    right: "0",
-    backgroundColor: "rgba(0, 0, 0, 0.1)", // Set your desired background color
-    padding: "10px",
-    textAlign: "center",
-  };
 
   return (
-    <Row style={footerStyle}>
+    <Row id="footer">
       <p>&copy; 2023 WordVibe. All rights reserved.</p>
     </Row>
   );

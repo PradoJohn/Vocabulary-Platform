@@ -1,10 +1,11 @@
 
 import { api } from "../utilities";
-import { Card, CardHeader, CardBody } from "react-bootstrap";
-import { Navigate, useNavigate, useOutletContext } from "react-router-dom";
+import { Card} from "react-bootstrap";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 
-const PremiumPage = ()=>{
+
+const PremiumShop = ()=>{
   const {user} = useOutletContext();
   const navigate = useNavigate();
   
@@ -18,13 +19,12 @@ const PremiumPage = ()=>{
   return(
     <>
       <Card>
-        <CardHeader>Welcome to Premium</CardHeader>
-        <CardBody>
-
-        </CardBody>
+        <Card.Footer>
+          Premium Shop
+        </Card.Footer>
       </Card>
     </>
   );
 };
 
-export default PremiumPage;
+export default PremiumShop;

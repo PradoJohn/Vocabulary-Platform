@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 import { Container} from 'react-bootstrap';
 import Footer from './components/Footer';
 
-
 function App() {
   const [user, setUser] = useState(null);
   const [word, setWord] = useState(null);
@@ -17,7 +16,11 @@ function App() {
     <>
         <Header user={user} setUser={setUser} isPremium={isPremium}/>
         <Container>
-          <Outlet context={{user, setUser, word, setWord, isPremium, setIsPremium}}/>
+          <Outlet context={{
+            user, setUser, 
+            word, setWord, 
+            isPremium, setIsPremium
+            }}/>
         </Container>
         <Footer/>
     </>

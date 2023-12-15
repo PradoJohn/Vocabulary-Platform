@@ -2,10 +2,9 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import SignUp from "../components/SignUp";
 import LogIn from "../components/LogIn";
 import { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
 
 export const RegisterPage = ()=>{
-  const {user, setUser} = useOutletContext();
+  const {user, setUser, setIsPremium} = useOutletContext();
   const [existingUser, setExistingUser] = useState(true);
   const navigate = useNavigate();
 
@@ -18,7 +17,7 @@ export const RegisterPage = ()=>{
   return (
     <>
       {existingUser ? (
-      <LogIn  setUser={setUser} existingUser={existingUser} setExistingUser={setExistingUser}/>
+      <LogIn  setUser={setUser} existingUser={existingUser} setExistingUser={setExistingUser} setIsPremium={setIsPremium}/>
       ) : (
       <SignUp setUser={setUser} existingUser={existingUser} setExistingUser={setExistingUser}/>
       )

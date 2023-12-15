@@ -5,7 +5,7 @@ import { useState } from "react";
 import { api } from "../utilities";
 import { useNavigate } from "react-router-dom";
 
-const LogIn =({setUser, existingUser, setExistingUser}) => {
+const LogIn =({setUser, existingUser, setExistingUser, setIsPremium}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -17,8 +17,9 @@ const LogIn =({setUser, existingUser, setExistingUser}) => {
         username: username,
         password: password,
       });
-      // console.log("Response status code:", response.status);
+      // console.log("Response status code:", response.data.is_premium);
       if (response.status === 200){
+        setIsPremium(response.data.is_premium)
         setUser(response.data.user);
         localStorage.setItem("token", response.data.token);
         api.defaults.headers.common["Authorization"] = `Token ${response.data.token}`

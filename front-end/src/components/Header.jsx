@@ -34,10 +34,10 @@ const Header = ({ user, setUser, isPremium }) => {
                   <>
                     <div className="links">
                       <Nav.Link as={Link} to="/demo/"><IoSearch size={30} /></Nav.Link>
-                      <Nav.Link as={Link} to="/premium/">
+                      <Nav.Link as={Link} to="/collection/">
                         {isPremium ? <TbVocabulary size={30} /> : null}
                       </Nav.Link>
-                      <Nav.Link as={Link} to="/premium/">
+                      <Nav.Link as={Link} to="/premium_shop/">
                         {isPremium ? <TbPremiumRights size={30}/> : null}
                       </Nav.Link>
                     </div>
