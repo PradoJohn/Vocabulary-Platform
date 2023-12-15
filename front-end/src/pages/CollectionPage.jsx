@@ -7,9 +7,22 @@ import Table from 'react-bootstrap/Table';
 
 
 const CollectionPage = ()=>{
-  const {user} = useOutletContext();
+  const {user, word, setWord} = useOutletContext();
   const navigate = useNavigate();
   
+  useEffect(()=>{
+
+    const getSavedFavorites=async()=>{
+      try{
+        const response = await api.get("word/saved_words");
+        
+      }catch(error){
+        console.log("Something went wrong:", error)
+      }
+    }
+    
+  },[])
+
   useEffect(()=>{
     if(!user){
       navigate("/register/")

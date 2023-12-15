@@ -43,7 +43,7 @@ class SearchWord(UserPermissions):
         else:
             return Response({'error': "Word not Found"}, status=response.status_code)
       else:
-          return Response("Word Exist", status=status.HTTP_404_NOT_FOUND)
+          return Response({'error': "Word already exists"}, status=status.HTTP_200_OK)
     except Exception as e:
           print(e)
           return Response("An error occurred", status=status.HTTP_400_BAD_REQUEST)

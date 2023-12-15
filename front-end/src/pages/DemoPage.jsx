@@ -6,20 +6,18 @@ import { MdFavoriteBorder, MdFavorite} from "react-icons/md";
 import './DemoPage.css'
 
 const DemoPage = () => {
-  const { user, word, setWord } = useOutletContext();
+  const { user, word, setWord, isPremium} = useOutletContext();
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState("");
   const [wordDetails, setWordDetails] = useState({});
   const [error, setError] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
-
+  
   const getWordDetails = async (wordToSearch) => {
       try {
         const response = await api.get(`word/search_word/${wordToSearch}/`);
         if(response.data[0]){
-          // destructuring meaning from json data
           const {meanings} = response.data[0]
-          // console.log(meanings)
           setWordDetails(meanings)
         }
       } catch (error) {
@@ -31,56 +29,68 @@ const DemoPage = () => {
         console.error("Error fetching word details:", error);
       }
   };
+  
   // Sets the Word then fetch details
   const handleSearch = () => {
     if(searchWord){
       setWord(searchWord);
-      getWordDetails(word);
+      getWordDetails(searchWord);
     }
   };
-
   
   const addToFavorites=async(wordToSave)=>{
-    // To add word to Favorite Collections
     try{
       const response = await api.post(`word/search_word/${wordToSave}/`,{
         word: wordToSave
       });
-      // console.log("save the word", wordToSave)
         if (response.status === 200){
-          setIsFavorite(true)
-          console.log("Word is saved")
-        }else{
-          console.log("Word Not Saved")
+          setIsFavorite(!isFavorite)
         }
       }catch (error){
       console.error(error.response.data.error)
     }
   };
 
-  // To remove from Favorite Collections
-  const deleteFromFavorites=(wordToDelete)=>{
-    console.log("delete",wordToDelete)
+  const deleteFromFavorites= async()=>{
+    let id = await getWordId();
+    console.log(id)
+    try{
+      if (id !== null){
+        const response = await api.delete(`word/saved_words/${id}`,{
+          id: id
+        })
+        if(response.status ===200){
+          setIsFavorite(!isFavorite)
+        }
+      }
+    }catch(error){
+      console.log("Error during deletion of word: ", id)
+    }
   };
 
- 
+  const getWordId = async()=>{
+    try{
+      const response = await api.get("word/saved_words/")
+      if(response.status ===200){
+        return response.data.find(item => item.word === word).id
+      } 
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   useEffect(()=>{
-  // mounts word that exist from the database then remounts for new word
   const getSavedFavorites = async (word) => {
     try {
       const response = await api.get("word/saved_words/");
       if (response.status === 200) {
-        console.log(response.data);
-  
-        // Check if the word exists in any of the objects in the response data
+        console.log("User has saved: ",response.data, " of words");
         const wordExists = response.data.some(item => item.word === word);
         console.log("Word exists in response data:", wordExists); // Debug output
   
         if (wordExists) {
-          console.log("The word exists in the database.");
           setIsFavorite(true);
         } else {
-          console.log("The word does not exist in the database.");
           setIsFavorite(false);
         }
       }
@@ -89,13 +99,12 @@ const DemoPage = () => {
       console.error("Error retrieving saved_words from the database:", error);
     }
   };
-
   getSavedFavorites(word);
   },[word]);
   
   
   useEffect(() => {
-    // check user if exist otherwise redirects to login page
+
     if (!user) {
       navigate("/register/");
     }
@@ -125,13 +134,15 @@ const DemoPage = () => {
         </div>
         <Card>
           <CardBody>
-            <Button 
-            className="float-end"
-            variant="transparent"
-            onClick={()=>{isFavorite ? deleteFromFavorites(word): addToFavorites(word) }}
-            >
+            {isPremium? (
+              <Button 
+              className="float-end"
+              variant="transparent"
+              onClick={()=>{isFavorite ? deleteFromFavorites(): addToFavorites(word) }}
+              >
               {isFavorite ? <MdFavorite size={30}/>: <MdFavoriteBorder size={30}/> }
             </Button>
+            ):null}
             <h3 className="text-center"> "{word}"</h3>
             {Array.isArray(wordDetails) && wordDetails.length > 0 ? (
               wordDetails.map((item, idx) => (

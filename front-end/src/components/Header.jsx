@@ -5,12 +5,12 @@ import { Navbar, Container, Nav, DropdownButton, Dropdown, ButtonGroup } from "r
 import { useNavigate } from "react-router-dom";
 import { TbVocabulary, TbPremiumRights  } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
-
+import { FaRegUserCircle } from "react-icons/fa";
 import './Header.css';
 
 const Header = ({ user, setUser, isPremium }) => {
   const navigate = useNavigate();
-
+  
   const handleLogout = async () => {
     try {
       const response = await api.post("users/logout/");
@@ -48,7 +48,11 @@ const Header = ({ user, setUser, isPremium }) => {
                         className={"custom-dropdown"}
                         drop="start"
                         variant="transparent"
-                        title={<strong style={{fontSize:"18px"}}>{user}</strong>}
+                        title={ 
+                          <strong style={{fontSize:"18px"}}>
+                            <FaRegUserCircle size={30}/>
+                          </strong>
+                        }
                       >
                         <Dropdown.Item as={Link} to="/account/">Account</Dropdown.Item>
                         <Dropdown.Item as={Link} to="/settings/">Settings</Dropdown.Item>

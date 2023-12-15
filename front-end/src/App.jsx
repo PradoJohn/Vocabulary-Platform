@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [word, setWord] = useState(null);
+  const [word, setWord] = useState("null");
   const [isPremium, setIsPremium] = useState(false);
 
   return (
