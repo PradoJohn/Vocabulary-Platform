@@ -7,7 +7,7 @@ import { TbVocabulary, TbPremiumRights  } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
 import './Header.css';
-
+import Logo from '../assets/WordFinityLogo.png'
 const Header = ({ user, setUser, isPremium }) => {
   const navigate = useNavigate();
   
@@ -27,18 +27,18 @@ const Header = ({ user, setUser, isPremium }) => {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary p-3">
+      <Navbar expand="lg" className="bg-body-tertiary p-1">
         <Container>
-            <Navbar.Brand as={Link} to="/">WordVibe</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/"><img src={Logo} id="logo"/></Navbar.Brand>
               {user ? (
                   <>
                     <div className="links">
                       <Nav.Link as={Link} to="/demo/"><IoSearch size={30} /></Nav.Link>
                       <Nav.Link as={Link} to="/collection/">
-                        {isPremium ? <TbVocabulary size={30} /> : null}
+                        {isPremium ? <TbVocabulary size={35} /> : null}
                       </Nav.Link>
                       <Nav.Link as={Link} to="/premium_shop/">
-                        {isPremium ? <TbPremiumRights size={30}/> : null}
+                        {isPremium ? <TbPremiumRights size={35}/> : null}
                       </Nav.Link>
                     </div>
                     <div className="navbar-nav">  

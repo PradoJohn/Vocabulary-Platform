@@ -1,6 +1,6 @@
 #search-bar {
   padding: 10px;
-  margin: 20px 1px 10px 1px;
+  margin: 10px 1px 10px 1px;
   box-shadow: 1px 1px 5px gray;
   margin-right: 10px;
   width: 65%;
@@ -10,19 +10,28 @@
 }
 
 #search-button {
-  padding: 10px 20px;
-  background-color: #2e5e92;
-  color: #fff;
+  padding: 5px 10px;
+  background-color: white;
+  color: #220632;
   border: none;
   border-radius: 50px;
   cursor: pointer;
+  box-shadow: 1px 1px 5px gray;
+  margin-right: 5px;
 }
 
 .search-demo-row{
   display: flex;
   flex-direction: column;
+  margin-bottom: 75px;
 }
 
 #search-container{
   text-align: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.heart{
+  color: #2e5e92;
 }

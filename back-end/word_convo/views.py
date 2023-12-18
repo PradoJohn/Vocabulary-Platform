@@ -27,7 +27,7 @@ class StartConversation(UserPermissions):
       if user_account.is_premium == True:
         if not word:
           return Response({"error":"Check spelling and Prompt must be related to the word."}, status=status.HTTP_400_BAD_REQUEST)
-        prompt = f"Could you break down the meaning of {word} in a way that's easy to understand and provide an example to illustrate its usage?"
+        prompt = f"Could you break down the meaning of {word} in a way that's easy to understand and provide an example to illustrate its usage and give its part of speech in italics?"
         ai_response = generate_text(prompt)
         # Retrieve or create the Word instance
         word_instance, created = Word.objects.get_or_create(word=word, user=request.user)

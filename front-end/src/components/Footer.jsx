@@ -4,7 +4,7 @@ const Footer = () => {
 
   return (
     <Row id="footer">
-      <p>&copy; 2023 WordVibe. All rights reserved.</p>
+      <p>&copy; 2023 WordFinity. All rights reserved.</p>
     </Row>
   );
 };

@@ -3,13 +3,16 @@ import { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Button, Card, CardBody, Row } from "react-bootstrap";
 import { MdFavoriteBorder, MdFavorite} from "react-icons/md";
+import { GoSearch } from "react-icons/go";
+import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import './DemoPage.css'
+import axios from "axios";
 
 const DemoPage = () => {
   const { user, word, setWord, isPremium} = useOutletContext();
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState("");
-  const [wordDetails, setWordDetails] = useState({});
+  const [wordDetails, setWordDetails] = useState([]);
   const [error, setError] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   
@@ -29,7 +32,21 @@ const DemoPage = () => {
         console.error("Error fetching word details:", error);
       }
   };
-  
+
+  const getRandomWord = async()=>{
+    console.log("clicked")
+    try{
+      const response = await axios.get("https://random-word-api.vercel.app/api?words=1")
+      let random_word = response.data[0]
+      if (response.data){
+        setWord(random_word)
+        getWordDetails(random_word)
+      }
+    }catch (error){
+      console.error(error.response.status.error)
+    }
+  }
+
   // Sets the Word then fetch details
   const handleSearch = () => {
     if(searchWord){
@@ -120,7 +137,9 @@ const DemoPage = () => {
   return (
     <>
       <Row className="search-demo-row">
+       
         <div id="search-container">
+          <Button id="search-button" onClick={()=>getRandomWord()}><GiPerspectiveDiceSixFacesRandom size={35} /></Button>
           <input
             value={searchWord}
             type="text"
@@ -128,19 +147,19 @@ const DemoPage = () => {
             placeholder="Search a Word..."
             onChange={(e) => setSearchWord(e.target.value)}
           />
-          <button id="search-button" onClick={handleSearch}>
-            Search
-          </button>
+          <Button id="search-button" onClick={handleSearch}>
+            <GoSearch size={35}/>
+          </Button>
         </div>
         <Card>
           <CardBody>
-            {isPremium? (
+            {isPremium && Array.isArray(wordDetails) && wordDetails.length > 0 ? (
               <Button 
               className="float-end"
               variant="transparent"
               onClick={()=>{isFavorite ? deleteFromFavorites(): addToFavorites(word) }}
               >
-              {isFavorite ? <MdFavorite size={30}/>: <MdFavoriteBorder size={30}/> }
+              {isFavorite? <MdFavorite className="heart" size={30}/>: <MdFavoriteBorder size={30}/> }
             </Button>
             ):null}
             <h3 className="text-center"> "{word}"</h3>
