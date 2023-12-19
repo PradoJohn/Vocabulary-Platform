@@ -32,8 +32,8 @@ const Header = ({ user, setUser, isPremium }) => {
             <Navbar.Brand as={Link} to="/"><img src={Logo} id="logo"/></Navbar.Brand>
               {user ? (
                   <>
-                    <div className="links">
-                      <Nav.Link as={Link} to="/demo/"><IoSearch size={30} /></Nav.Link>
+                    <div className="links align-items-center">
+                      <Nav.Link as={Link} to="/demo/"><IoSearch size={35} /></Nav.Link>
                       <Nav.Link as={Link} to="/collection/">
                         {isPremium ? <TbVocabulary size={35} /> : null}
                       </Nav.Link>

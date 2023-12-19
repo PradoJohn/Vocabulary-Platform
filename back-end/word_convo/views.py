@@ -27,7 +27,7 @@ class StartConversation(UserPermissions):
       if user_account.is_premium == True:
         if not word:
           return Response({"error":"Check spelling and Prompt must be related to the word."}, status=status.HTTP_400_BAD_REQUEST)
-        prompt = f"Could you break down the meaning of {word} in a way that's easy to understand and provide an example to illustrate its usage and give its part of speech in italics?"
+        prompt = f"Specify the part of speech on the first word and provide a concise definition of the word '{word}', and then create a sentence demonstrating its usage."
         ai_response = generate_text(prompt)
         # Retrieve or create the Word instance
         word_instance, created = Word.objects.get_or_create(word=word, user=request.user)
@@ -42,10 +42,9 @@ class StartConversation(UserPermissions):
         serializer = ConversationSerializer(conversation)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
       else:
-        return Response({"error": "Upgrade to Premium"}, status=status.HTTP_403_FORBIDDEN)
+        return Response({"error": "Upgrade to Premium"}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-      print(e)
-      return Response("An error occurred", status=status.HTTP_400_BAD_REQUEST)
+      return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
   # Custom Prompt
   def post(self, request):

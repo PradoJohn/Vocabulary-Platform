@@ -21,7 +21,7 @@ class SearchWord(UserPermissions):
         data = response.json()
         return Response(data)
       
-      return Response({'error': "Word not found from current dictionary API"}, status=status.HTTP_404_NOT_FOUND)
+      return Response({'error': "Sorry! No an available definition in the current dictionary."}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
       print(e)
       return Response("An error occured", status=status.HTTP_400_BAD_REQUEST)

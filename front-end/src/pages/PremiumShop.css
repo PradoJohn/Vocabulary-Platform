@@ -1,0 +1,21 @@
+
+/* light green outline style*/
+.green-outline-button{
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: outline 0.3s ease;
+}
+.green-outline-button.highlighted {
+  outline: 10px solid lightgreen;
+}
+
+.blue-outline-button{
+  background-color: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: outline 0.3s ease;
+}
+.blue-outline-button.highlighted {
+  outline: 10px solid rgb(78, 89, 248);
+}

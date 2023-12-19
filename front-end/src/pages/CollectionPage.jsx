@@ -21,7 +21,7 @@ const CollectionPage = () => {
 
   const getSavedFavorites = async () => {
     try {
-      const response = await api.get('word/saved_words');
+      const response = await api.get('word/saved_words/');
       if (response.status === 200) {
         console.log('All data: ', response.data);
         setSavedWords(response.data);
@@ -111,6 +111,7 @@ const CollectionPage = () => {
               key={index}
               active={index + 1 === currentPage}
               onClick={() => handlePageChange(index + 1)}
+              
             >
               {index + 1}
             </Pagination.Item>

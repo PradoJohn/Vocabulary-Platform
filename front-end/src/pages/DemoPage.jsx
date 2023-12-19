@@ -9,7 +9,9 @@ import './DemoPage.css'
 import axios from "axios";
 
 const DemoPage = () => {
-  const { user, word, setWord, isPremium} = useOutletContext();
+  const { 
+    user, word, setWord, 
+    isPremium, aiTextResponse, setAiTextResponse} = useOutletContext();
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState("");
   const [wordDetails, setWordDetails] = useState([]);
@@ -41,6 +43,7 @@ const DemoPage = () => {
       if (response.data){
         setWord(random_word)
         getWordDetails(random_word)
+        getSavedFavorites(random_word)
       }
     }catch (error){
       console.error(error.response.status.error)
@@ -70,7 +73,6 @@ const DemoPage = () => {
 
   const deleteFromFavorites= async()=>{
     let id = await getWordId();
-    console.log(id)
     try{
       if (id !== null){
         const response = await api.delete(`word/saved_words/${id}`,{
@@ -94,19 +96,17 @@ const DemoPage = () => {
     }catch(error){
       console.log(error)
     }
-  }
+  };
 
-  useEffect(()=>{
   const getSavedFavorites = async (word) => {
     try {
       const response = await api.get("word/saved_words/");
       if (response.status === 200) {
-        console.log("User has saved: ",response.data, " of words");
         const wordExists = response.data.some(item => item.word === word);
-        console.log("Word exists in response data:", wordExists); // Debug output
-  
+        // console.log("Word exists in response data:", wordExists); // Debug output
         if (wordExists) {
           setIsFavorite(true);
+          setAiTextResponse(response.data.find(item => item.word === word).ai_response);
         } else {
           setIsFavorite(false);
         }
@@ -116,16 +116,13 @@ const DemoPage = () => {
       console.error("Error retrieving saved_words from the database:", error);
     }
   };
-  getSavedFavorites(word);
-  },[word]);
-  
   
   useEffect(() => {
-
     if (!user) {
       navigate("/register/");
     }
     getWordDetails(word);
+    getSavedFavorites(word);
   }, [user, word]);
 
   
@@ -153,7 +150,7 @@ const DemoPage = () => {
         </div>
         <Card>
           <CardBody>
-            {isPremium && Array.isArray(wordDetails) && wordDetails.length > 0 ? (
+            {isPremium? (
               <Button 
               className="float-end"
               variant="transparent"
@@ -165,7 +162,7 @@ const DemoPage = () => {
             <h3 className="text-center"> "{word}"</h3>
             {Array.isArray(wordDetails) && wordDetails.length > 0 ? (
               wordDetails.map((item, idx) => (
-                <div key={idx}>
+                <div key={idx} className="mt-4">
                   <p>
                     <i>{item.partOfSpeech}</i>
                   </p>
@@ -179,7 +176,20 @@ const DemoPage = () => {
                 </div>
               ))
             ) : (
-              <p className="text-center" style={{color:"red"}}>"{error}"</p>
+              Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
+                aiTextResponse.map((item, idx) => (
+                    <ul className="mt-4">
+                      <li key={idx}> <strong>AI Definition: </strong>{item}</li>
+                    </ul>
+                ))
+              ) : (
+              <div className="mt-5">
+                <p className="text-center" style={{color:"red"}}>"{error}"</p>
+                <div className="float-start">
+                <Button className="btn-navigate-to-shop" variant="transparent" onClick={()=>navigate("/premium_shop/")}>See AI Definition. . .</Button>
+                </div>
+              </div>
+              )
             )}
           </CardBody>
         </Card>

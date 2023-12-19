@@ -11,7 +11,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [word, setWord] = useState("null");
   const [isPremium, setIsPremium] = useState(false);
-
+  const [aiTextResponse, setAiTextResponse] = useState([]);
   return (
     <>
         <Header user={user} setUser={setUser} isPremium={isPremium}/>
@@ -19,7 +19,8 @@ function App() {
           <Outlet context={{
             user, setUser, 
             word, setWord, 
-            isPremium, setIsPremium
+            isPremium, setIsPremium,
+            aiTextResponse, setAiTextResponse
             }}/>
         </Container>
         <Footer/>
