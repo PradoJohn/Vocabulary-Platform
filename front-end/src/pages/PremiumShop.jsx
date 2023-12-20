@@ -22,9 +22,8 @@ const PremiumShop = () => {
   const [highlightedImage, setHighlightedImage] = useState(false);
 
   const getTextResponse = async () => {
-    console.log("clicked")
-    let currentWord = word
     try {
+      let currentWord = word
       const response = await api.get(`conversations/${word}/`);
       if (response.status === 201) {
         setAiTextResponse(response.data.ai_response);
@@ -42,7 +41,6 @@ const PremiumShop = () => {
   const handleDefinitionClick = () => {
     getTextResponse();
     setHighlightedDefinition(true);
-
     setTimeout(() => {
       setHighlightedDefinition(false);
     }, 1000);

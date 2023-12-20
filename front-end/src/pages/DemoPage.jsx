@@ -22,7 +22,6 @@ const DemoPage = () => {
   const [wordDetails, setWordDetails] = useState([]);
   const [error, setError] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
-  const [wordId, setWordId] = useState(null);
 
   const getWordDetails = async (wordToSearch) => {
       try {
@@ -34,7 +33,7 @@ const DemoPage = () => {
       } catch (error) {
         if (error.response.status === 404) {
           setWordDetails({})
-          console.error(error.response.data.error)
+          // console.error(error.response.data.error)
           setError(error.response.data.error)
         }
         console.error("Error fetching word details:", error);
@@ -139,10 +138,11 @@ const DemoPage = () => {
   }, [wordDetails]);
   
 
+  // 1 Row, 1 Search Container and 1 Card Exists In this Return
   return (
     <>
       <Row className="search-demo-row">
-       
+        {/* Search Container */}
         <div id="search-container">
           <Button id="search-button" onClick={()=>getRandomWord()}><GiPerspectiveDiceSixFacesRandom size={35} /></Button>
           <input
@@ -156,23 +156,29 @@ const DemoPage = () => {
             <GoSearch size={35}/>
           </Button>
         </div>
+        {/* End of Search Container */}
+
         <Card>
           <CardBody>
-            {/* Drop down for Translator */}
-            <Dropdown className="float-start" >
+            {/* Drop down Button for Translator */}
+            {isPremium?(
+              <Dropdown className="float-start" >
               <Dropdown.Toggle as={Translator}>
               <BsTranslate color="black" size={25}/>
               </Dropdown.Toggle>
 
               <Dropdown.Menu as={CustomMenu}  >
-                <Dropdown.Item eventKey="1" active >English</Dropdown.Item>
+                <Dropdown.Item eventKey="1" active>English</Dropdown.Item>
                 <Dropdown.Item eventKey="2">Russian</Dropdown.Item>
                 <Dropdown.Item eventKey="3">Italian</Dropdown.Item>
-                <Dropdown.Item eventKey="1">Tagalog</Dropdown.Item>
-                <Dropdown.Item eventKey="1">Hawaiian</Dropdown.Item>
+                <Dropdown.Item eventKey="4">Tagalog</Dropdown.Item>
+                <Dropdown.Item eventKey="5">Hawaiian</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-            {/* ****************************** */}
+            ):(null)}
+            {/* ****************End of Dropdown************** */}
+
+            {/* Adding and Deleting Favorites Button and checks if Premium is True  */}
             {isPremium? (
               <Button 
               className="float-end"
@@ -182,55 +188,79 @@ const DemoPage = () => {
               {isFavorite? <MdFavorite className="heart" size={30}/>: <MdFavoriteBorder size={30}/> }
             </Button>
             ):null}
+            {/* ********End of favorites Button*********** */}
+
             <h3 className="text-center"> "{word}"</h3>
+
             {Array.isArray(wordDetails) && wordDetails.length > 0 ? (
-              wordDetails.map((item, idx) => (
-                <>
-                <div key={idx} className="mt-4">
-                  <p>
-                    <i>{item.partOfSpeech}  </i>
-                  </p>
-                  <ul>
-                    {item.definitions.map((definition, defIdx) => (
-                      <li key={defIdx}>
-                        <strong>Definition:</strong> {definition.definition}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                              /**** Truthy wordDetail ****/
+              <>
                 {Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
-                  aiTextResponse.map((item, idx) => (
-                      <ul className="mt-4">
-                        <li key={idx}> <strong>AI Definition: </strong>{item}</li>
+                              /**** Truthy aiTextResponse ****/
+                  <>
+                    {wordDetails.map((item, idx) => (
+                      <div key={idx} className="mt-4">
+                        <p>
+                          <i>{item.partOfSpeech} </i>
+                        </p>
+                        <ul>
+                          {item.definitions.map((definition, defIdx) => (
+                            <li key={defIdx}>
+                              <strong>Definition:</strong> {definition.definition}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                    {aiTextResponse.map((item, idx) => (
+                      <ul className="mt-4" key={idx}>
+                        <li>
+                          <strong>AI Definition: </strong>
+                          {item}
+                        </li>
                       </ul>
-                  ))
+                    ))}
+                  </>
                 ) : (
-                null
+                          /**** Falsy aiTextResponse ****/
+                  wordDetails.map((item, idx) => (
+                    <div key={idx} className="mt-4">
+                      <p>
+                        <i>{item.partOfSpeech} </i>
+                      </p>
+                      <ul>
+                        {item.definitions.map((definition, defIdx) => (
+                          <li key={defIdx}>
+                            <strong>Definition:</strong> {definition.definition}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))
                 )}
-                </>
-              ))
-
+              </>
             ) : (
-              // Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
-              //   aiTextResponse.map((item, idx) => (
-              //       <ul className="mt-4">
-              //         <li key={idx}> <strong>AI Definition: </strong>{item}</li>
-              //       </ul>
-              //   ))
-              // ) : (
-              <div className="mt-5">
-                <p className="text-center" style={{color:"red"}}>"{error}"</p>
-                <div className="float-start">
-                {isPremium?(
-                  <Button className="btn-navigate-to-shop" variant="transparent" onClick={()=>navigate("/premium_shop/")}>See AI Definition. . .</Button>
-                ):(
-                  null
-                )}
+                          /**** Falsy wordDetail ******/ 
+              Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
+                  /** Truthy aiTextResponse **/
+                aiTextResponse.map((item, idx) => (
+                    <ul className="mt-4">
+                      <li key={idx}> <strong>AI Definition: </strong>{item}</li>
+                    </ul>
+                ))
+              ) : (
+                  /** Falsy aiTextResponse **/
+                <div className="mt-5">
+                  <p className="text-center" style={{color:"red"}}>"{error}"</p>
+                  <div className="float-start">
+                  {isPremium?(
+                    <Button className="btn-navigate-to-shop" variant="transparent" onClick={()=>navigate("/premium_shop/")}>See AI Definition. . .</Button>
+                  ):(
+                    null /* null if all three conditions were falsy.  */
+                  )}
+                  </div>
                 </div>
-              </div>
-
-
-              // )
+              )
             )}
           </CardBody>
         </Card>

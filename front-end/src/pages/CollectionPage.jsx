@@ -23,7 +23,7 @@ const CollectionPage = () => {
     try {
       const response = await api.get('word/saved_words/');
       if (response.status === 200) {
-        console.log('All data: ', response.data);
+        // console.log('All data: ', response.data);
         setSavedWords(response.data);
       }
     } catch (error) {

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-
-
+import './Translator.css';
 
 export const Translator = React.forwardRef(({ children, onClick }, ref) => (
   <a
@@ -12,6 +11,7 @@ export const Translator = React.forwardRef(({ children, onClick }, ref) => (
       e.preventDefault();
       onClick(e);
     }}
+    className="translator-link" // Apply the CSS class
   >
     {children}
     &#x25bc;
@@ -26,13 +26,13 @@ export const CustomMenu = React.forwardRef(
       <div
         ref={ref}
         style={style}
-        className={className}
+        className={`custom-menu ${className}`} // Apply the CSS class and keep any existing classes
         aria-labelledby={labeledBy}
       >
         <Form.Control
           autoFocus
           className="mx-3 my-2 w-auto"
-          placeholder="Type to filter..."
+          placeholder="Type Language..."
           onChange={(e) => setValue(e.target.value)}
           value={value}
         />

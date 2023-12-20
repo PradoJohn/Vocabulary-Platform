@@ -80,7 +80,7 @@ const AccountPage = () => {
         <h6>Username: {username} </h6>
         <h6>Premium: {isPremium ? "Yes" : "No"}</h6>
         <div className="d-flex flex-row align-items-center ">
-        <h6 className="me-2">Activate: </h6>
+        <h6 className="me-2">{isPremium ? "Deactivate:" : "Activate:"} </h6>
         <label className="switch">
           <input
             type="checkbox"
