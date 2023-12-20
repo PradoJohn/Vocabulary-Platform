@@ -1,12 +1,11 @@
 #search-bar {
-  padding: 8px 1px 10px 1px;
+  padding: 8px 1px 10px 20px;
   margin: 10px 1px 10px 1px;
   box-shadow: 1px 1px 5px gray;
   margin-right: 10px;
-  width: 65%;
+  width: 60%;
   border: 1px solid #ccc;
   border-radius: 50px;
-  text-align: center;
 }
 
 #search-button {
@@ -54,4 +53,8 @@
 
 .btn-navigate-to-shop{
   box-shadow: 1px 1px 5px gray;
+}
+
+#text {
+  background-color: black; /* Replace "your-color" with your desired color value */
 }

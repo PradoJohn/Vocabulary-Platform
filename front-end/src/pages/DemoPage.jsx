@@ -5,6 +5,11 @@ import { Button, Card, CardBody, Row } from "react-bootstrap";
 import { MdFavoriteBorder, MdFavorite} from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
+import Dropdown from 'react-bootstrap/Dropdown';
+import Form from 'react-bootstrap/Form';
+import { Translator, CustomMenu } from '../components/Translator.jsx';
+import { BsTranslate } from "react-icons/bs";
+
 import './DemoPage.css'
 import axios from "axios";
 
@@ -17,7 +22,8 @@ const DemoPage = () => {
   const [wordDetails, setWordDetails] = useState([]);
   const [error, setError] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
-  
+  const [wordId, setWordId] = useState(null);
+
   const getWordDetails = async (wordToSearch) => {
       try {
         const response = await api.get(`word/search_word/${wordToSearch}/`);
@@ -52,10 +58,13 @@ const DemoPage = () => {
 
   // Sets the Word then fetch details
   const handleSearch = () => {
-    if(searchWord){
+    if(searchWord && !searchWord.includes(" ")){
       setWord(searchWord);
       getWordDetails(searchWord);
+    }else{
+      alert("Must be one word")
     }
+
   };
   
   const addToFavorites=async(wordToSave)=>{
@@ -75,9 +84,7 @@ const DemoPage = () => {
     let id = await getWordId();
     try{
       if (id !== null){
-        const response = await api.delete(`word/saved_words/${id}`,{
-          id: id
-        })
+        const response = await api.delete(`word/saved_words/${id}`)
         if(response.status ===200){
           setIsFavorite(!isFavorite)
         }
@@ -122,6 +129,7 @@ const DemoPage = () => {
       navigate("/register/");
     }
     getWordDetails(word);
+    setAiTextResponse([]);
     getSavedFavorites(word);
   }, [user, word]);
 
@@ -150,6 +158,21 @@ const DemoPage = () => {
         </div>
         <Card>
           <CardBody>
+            {/* Drop down for Translator */}
+            <Dropdown className="float-start" >
+              <Dropdown.Toggle as={Translator}>
+              <BsTranslate color="black" size={25}/>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu as={CustomMenu}  >
+                <Dropdown.Item eventKey="1" active >English</Dropdown.Item>
+                <Dropdown.Item eventKey="2">Russian</Dropdown.Item>
+                <Dropdown.Item eventKey="3">Italian</Dropdown.Item>
+                <Dropdown.Item eventKey="1">Tagalog</Dropdown.Item>
+                <Dropdown.Item eventKey="1">Hawaiian</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* ****************************** */}
             {isPremium? (
               <Button 
               className="float-end"
@@ -162,9 +185,10 @@ const DemoPage = () => {
             <h3 className="text-center"> "{word}"</h3>
             {Array.isArray(wordDetails) && wordDetails.length > 0 ? (
               wordDetails.map((item, idx) => (
+                <>
                 <div key={idx} className="mt-4">
                   <p>
-                    <i>{item.partOfSpeech}</i>
+                    <i>{item.partOfSpeech}  </i>
                   </p>
                   <ul>
                     {item.definitions.map((definition, defIdx) => (
@@ -174,22 +198,39 @@ const DemoPage = () => {
                     ))}
                   </ul>
                 </div>
+                {Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
+                  aiTextResponse.map((item, idx) => (
+                      <ul className="mt-4">
+                        <li key={idx}> <strong>AI Definition: </strong>{item}</li>
+                      </ul>
+                  ))
+                ) : (
+                null
+                )}
+                </>
               ))
+
             ) : (
-              Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
-                aiTextResponse.map((item, idx) => (
-                    <ul className="mt-4">
-                      <li key={idx}> <strong>AI Definition: </strong>{item}</li>
-                    </ul>
-                ))
-              ) : (
+              // Array.isArray(aiTextResponse) && aiTextResponse.length > 0 ? (
+              //   aiTextResponse.map((item, idx) => (
+              //       <ul className="mt-4">
+              //         <li key={idx}> <strong>AI Definition: </strong>{item}</li>
+              //       </ul>
+              //   ))
+              // ) : (
               <div className="mt-5">
                 <p className="text-center" style={{color:"red"}}>"{error}"</p>
                 <div className="float-start">
-                <Button className="btn-navigate-to-shop" variant="transparent" onClick={()=>navigate("/premium_shop/")}>See AI Definition. . .</Button>
+                {isPremium?(
+                  <Button className="btn-navigate-to-shop" variant="transparent" onClick={()=>navigate("/premium_shop/")}>See AI Definition. . .</Button>
+                ):(
+                  null
+                )}
                 </div>
               </div>
-              )
+
+
+              // )
             )}
           </CardBody>
         </Card>

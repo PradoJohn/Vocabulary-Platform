@@ -23,14 +23,19 @@ const PremiumShop = () => {
 
   const getTextResponse = async () => {
     console.log("clicked")
-    // try {
-    //   const response = await api.get(`conversations/${word}/`);
-    //   if (response.status === 201) {
-    //     setAiTextResponse(response.data.ai_response);
-    //   }
-    // } catch (error) {
-    //   console.error(error.response.error);
-    // }
+    let currentWord = word
+    try {
+      const response = await api.get(`conversations/${word}/`);
+      if (response.status === 201) {
+        setAiTextResponse(response.data.ai_response);
+        setWord("");
+        setWord(currentWord)
+        navigate("/demo/")
+      }
+    } catch (error) {
+      alert("Must be a word!")
+      console.error(error.response.error);
+    }
   };
 
   // Handle the click event for the "Generate Definition" card
@@ -40,14 +45,13 @@ const PremiumShop = () => {
 
     setTimeout(() => {
       setHighlightedDefinition(false);
-    }, 1500);
+    }, 1000);
   };
 
   // Handle the click event for the "Generate Image" card
   const handleImageClick = () => {
     // You can add logic specific to the image card here if needed
     setHighlightedImage(true);
-
     setTimeout(() => {
       setHighlightedImage(false);
     }, 1500);
@@ -73,7 +77,7 @@ const PremiumShop = () => {
               <div className="text-center">
                 <TfiText size={65} />
               </div>
-              <p className="text-center mt-3">Generate Definition</p>
+              <p className="text-center mt-3">Generate <strong>Definition</strong> for '{word}'</p>
             </Card.Body>
           </Card>
         </Col>
@@ -88,25 +92,32 @@ const PremiumShop = () => {
               <div className="text-center">
                 <FaRegImage size={65} />
               </div>
-              <p className="text-center m-3">Generate Image</p>
+              <p className="text-center m-3">Generate <strong>Img</strong> using '{word}'</p>
             </Card.Body>
           </Card>
         </Col>
       </Row>
-      <Row className="justify-content-center">
+      {/* <Row className="justify-content-center">
         <Col xs={12} sm={10}>
           <Card>
             <Card.Header>
               <h3 className="text-center"> "{word}"</h3>
             </Card.Header>
-            {aiTextResponse && (
-              <CardBody>
-                <p>{aiTextResponse}</p>
+            <CardBody>
+                {Array.isArray(aiTextResponse) && aiTextResponse.length > 0 && (
+                  <ul className="mt-4">
+                    {aiTextResponse.map((item, idx) => (
+                      <li key={idx}>
+                        <strong>AI Definition: </strong>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </CardBody>
-            )}
           </Card>
         </Col>
-      </Row>
+      </Row> */}
     </Container>
   );
 };

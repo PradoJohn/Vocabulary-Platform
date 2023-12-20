@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { TbVocabulary, TbPremiumRights  } from "react-icons/tb";
 import { IoSearch } from "react-icons/io5";
 import { FaRegUserCircle } from "react-icons/fa";
+import { CiSettings } from "react-icons/ci";
+import { MdManageAccounts } from "react-icons/md";
 import './Header.css';
-import Logo from '../assets/WordFinityLogo.png'
+import Logo from '../assets/WordFinityLogo.png';
+
 const Header = ({ user, setUser, isPremium }) => {
   const navigate = useNavigate();
   
@@ -35,7 +38,7 @@ const Header = ({ user, setUser, isPremium }) => {
                     <div className="links align-items-center">
                       <Nav.Link as={Link} to="/demo/"><IoSearch size={35} /></Nav.Link>
                       <Nav.Link as={Link} to="/collection/">
-                        {isPremium ? <TbVocabulary size={35} /> : null}
+                        <TbVocabulary size={35} />
                       </Nav.Link>
                       <Nav.Link as={Link} to="/premium_shop/">
                         {isPremium ? <TbPremiumRights size={35}/> : null}
@@ -49,15 +52,20 @@ const Header = ({ user, setUser, isPremium }) => {
                         drop="start"
                         variant="transparent"
                         title={ 
-                          <strong style={{fontSize:"18px"}}>
-                            <FaRegUserCircle size={30}/>
-                          </strong>
+                          <span>
+                            <FaRegUserCircle size={30} className="d-md-none" /> {/* Hide on medium and larger screens */}
+                            <span className="d-none d-md-inline"><strong>{user}</strong></span> {/* Hide on small screens */}
+                          </span>
                         }
                       >
-                        <Dropdown.Item as={Link} to="/account/">Account</Dropdown.Item>
-                        <Dropdown.Item as={Link} to="/settings/">Settings</Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/account/" className="d-flex flex-row align-items-center"> 
+                          <MdManageAccounts size={25}/><div className="px-1">Account</div>
+                          </Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/settings/" className="d-flex flex-row align-items-center"> 
+                          <CiSettings size={25}/> <div className="px-1">Settings</div>
+                          </Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                        <Dropdown.Item onClick={handleLogout} style={{color:"red"}}>Log out</Dropdown.Item>
                       </DropdownButton>
                     </div>
                   </>

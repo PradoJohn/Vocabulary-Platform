@@ -14,8 +14,7 @@ const HomePage = () => {
       // Lots of uncommon words: https://random-word-api.herokuapp.com/word
       // Lots of common words: https://random-word-api.vercel.app/api?words=1
       const response = await axios.get("https://random-word-api.herokuapp.com/word")
-      // console.log(response.data)
-      setWord(response.data)
+      setWord(response.data[0])
       setRandomWord(response.data)
     }
     getRandomWord();
