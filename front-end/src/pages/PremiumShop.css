@@ -1,5 +1,5 @@
 
-/* light green outline style*/
+/* Text green outline style*/
 .green-outline-button{
   background-color: #fff;
   border: 1px solid #ccc;
@@ -9,7 +9,7 @@
 .green-outline-button.highlighted {
   outline: 10px solid lightgreen;
 }
-
+/* Image Blue outline style*/
 .blue-outline-button{
   background-color: #fff;
   border: 1px solid #ccc;
@@ -19,3 +19,4 @@
 .blue-outline-button.highlighted {
   outline: 10px solid rgb(78, 89, 248);
 }
+

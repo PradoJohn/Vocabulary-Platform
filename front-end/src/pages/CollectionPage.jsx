@@ -70,7 +70,7 @@ const CollectionPage = () => {
 
   return (
     <>
-      <Row className='mb-3'>
+      <Row className='mb-5'>
         <Card>
           <Card.Header className='word-collection-header text-center'><strong>WORD COLLECTIONS</strong></Card.Header>
           <Table striped className="mt-4">

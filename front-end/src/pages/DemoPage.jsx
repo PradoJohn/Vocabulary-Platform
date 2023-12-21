@@ -7,8 +7,8 @@ import { GoSearch } from "react-icons/go";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
-import { Translator, CustomMenu } from '../components/Translator.jsx';
-import { BsTranslate } from "react-icons/bs";
+import { FaHandPointRight } from "react-icons/fa";
+import {DropDownTranslator} from "../components/Translator.jsx";
 
 import './DemoPage.css'
 import axios from "axios";
@@ -16,7 +16,8 @@ import axios from "axios";
 const DemoPage = () => {
   const { 
     user, word, setWord, 
-    isPremium, aiTextResponse, setAiTextResponse} = useOutletContext();
+    isPremium, aiTextResponse, setAiTextResponse,
+    translatedWord, setTranslatedWord} = useOutletContext();
   const navigate = useNavigate();
   const [searchWord, setSearchWord] = useState("");
   const [wordDetails, setWordDetails] = useState([]);
@@ -41,11 +42,11 @@ const DemoPage = () => {
   };
 
   const getRandomWord = async()=>{
-    console.log("clicked")
     try{
       const response = await axios.get("https://random-word-api.vercel.app/api?words=1")
       let random_word = response.data[0]
       if (response.data){
+        setTranslatedWord("")
         setWord(random_word)
         getWordDetails(random_word)
         getSavedFavorites(random_word)
@@ -160,21 +161,9 @@ const DemoPage = () => {
 
         <Card>
           <CardBody>
-            {/* Drop down Button for Translator */}
+            {/* Drop down Component Translator */}
             {isPremium?(
-              <Dropdown className="float-start" >
-              <Dropdown.Toggle as={Translator}>
-              <BsTranslate color="black" size={25}/>
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu as={CustomMenu}  >
-                <Dropdown.Item eventKey="1" active>English</Dropdown.Item>
-                <Dropdown.Item eventKey="2">Russian</Dropdown.Item>
-                <Dropdown.Item eventKey="3">Italian</Dropdown.Item>
-                <Dropdown.Item eventKey="4">Tagalog</Dropdown.Item>
-                <Dropdown.Item eventKey="5">Hawaiian</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+              <DropDownTranslator word={word} setWord={setWord} setTranslatedWord={setTranslatedWord}/>
             ):(null)}
             {/* ****************End of Dropdown************** */}
 
@@ -190,8 +179,12 @@ const DemoPage = () => {
             ):null}
             {/* ********End of favorites Button*********** */}
 
-            <h3 className="text-center"> "{word}"</h3>
-
+            <h3 className="text-center">
+              {word}    
+            </h3>
+              <div className="pt-2">
+              {translatedWord ? `"${translatedWord}"` : null}  
+              </div>
             {Array.isArray(wordDetails) && wordDetails.length > 0 ? (
                               /**** Truthy wordDetail ****/
               <>

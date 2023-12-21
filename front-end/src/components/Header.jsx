@@ -10,7 +10,7 @@ import { CiSettings } from "react-icons/ci";
 import { MdManageAccounts } from "react-icons/md";
 import './Header.css';
 import Logo from '../assets/WordFinityLogo.png';
-
+import { IoOptionsOutline } from "react-icons/io5";
 const Header = ({ user, setUser, isPremium }) => {
   const navigate = useNavigate();
   
@@ -30,20 +30,29 @@ const Header = ({ user, setUser, isPremium }) => {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary p-1">
+      <Navbar expand="lg" className="bg-body-tertiary p-1" >
         <Container>
             <Navbar.Brand as={Link} to="/"><img src={Logo} id="logo"/></Navbar.Brand>
               {user ? (
                   <>
-                    <div className="links align-items-center">
-                      <Nav.Link as={Link} to="/demo/"><IoSearch size={35} /></Nav.Link>
+                    <Nav className="links align-items-center" variant="underline">
+                      <Nav.Link as={Link} to="/demo/" >
+                        <IoSearch size={30} />
+                        <p className="d-none d-md-inline">Search</p>
+                        </Nav.Link>
                       <Nav.Link as={Link} to="/collection/">
-                        <TbVocabulary size={35} />
+                        <TbVocabulary size={35} className="d-md-none"/>
+                        <p className="d-none d-md-inline">Collections</p>
                       </Nav.Link>
                       <Nav.Link as={Link} to="/premium_shop/">
-                        {isPremium ? <TbPremiumRights size={35}/> : null}
+                        {isPremium ? (
+                        <>
+                        <IoOptionsOutline size={35} className="d-md-none"/>
+                        <p className="d-none d-md-inline">Options</p>
+                        </>
+                        ) : null}
                       </Nav.Link>
-                    </div>
+                    </Nav>
                     <div className="navbar-nav">  
                       <DropdownButton
                         as={ButtonGroup}

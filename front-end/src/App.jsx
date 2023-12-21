@@ -12,6 +12,8 @@ function App() {
   const [word, setWord] = useState("null");
   const [isPremium, setIsPremium] = useState(false);
   const [aiTextResponse, setAiTextResponse] = useState([]);
+  const [translatedWord, setTranslatedWord] = useState("");
+
   return (
     <>
         <Header user={user} setUser={setUser} isPremium={isPremium}/>
@@ -20,7 +22,8 @@ function App() {
             user, setUser, 
             word, setWord, 
             isPremium, setIsPremium,
-            aiTextResponse, setAiTextResponse
+            aiTextResponse, setAiTextResponse,
+            translatedWord, setTranslatedWord
             }}/>
         </Container>
         <Footer/>
