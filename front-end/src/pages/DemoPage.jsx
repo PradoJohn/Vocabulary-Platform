@@ -5,9 +5,6 @@ import { Button, Card, CardBody, Row } from "react-bootstrap";
 import { MdFavoriteBorder, MdFavorite} from "react-icons/md";
 import { GoSearch } from "react-icons/go";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
-import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
-import { FaHandPointRight } from "react-icons/fa";
 import {DropDownTranslator} from "../components/Translator.jsx";
 
 import './DemoPage.css'
@@ -164,7 +161,7 @@ const DemoPage = () => {
             {/* Drop down Component Translator */}
             {isPremium?(
               <DropDownTranslator word={word} setWord={setWord} setTranslatedWord={setTranslatedWord}/>
-            ):(null)}
+            ):(setTranslatedWord(""))}
             {/* ****************End of Dropdown************** */}
 
             {/* Adding and Deleting Favorites Button and checks if Premium is True  */}

@@ -4,7 +4,7 @@ import { api } from "../utilities";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, ButtonGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { TbVocabulary, TbPremiumRights  } from "react-icons/tb";
-import { IoSearch } from "react-icons/io5";
+import { AiOutlineFileSearch } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiSettings } from "react-icons/ci";
 import { MdManageAccounts } from "react-icons/md";
@@ -36,9 +36,9 @@ const Header = ({ user, setUser, isPremium }) => {
               {user ? (
                   <>
                     <Nav className="links align-items-center" variant="underline">
-                      <Nav.Link as={Link} to="/demo/" >
-                        <IoSearch size={30} />
-                        <p className="d-none d-md-inline">Search</p>
+                      <Nav.Link as={Link} to="/demo/">
+                        <AiOutlineFileSearch size={35} className="d-md-none" />
+                        <p className="d-none d-md-inline">Demo</p>
                         </Nav.Link>
                       <Nav.Link as={Link} to="/collection/">
                         <TbVocabulary size={35} className="d-md-none"/>

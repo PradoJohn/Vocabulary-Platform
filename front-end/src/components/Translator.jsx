@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import './Translator.css';
 import { BsTranslate } from 'react-icons/bs';
-import { useOutletContext } from 'react-router-dom';
 
 // Language Options
 const languageOptions = [
@@ -16,6 +15,7 @@ const languageOptions = [
   { code: 'tl', name: 'Tagalog' },
   { code: 'zh-CN', name: 'Chinese Traditional' },
   { code: 'zh-TW', name: 'Chinese Simplified' },
+  { code: 'ar', name: 'Arabic' },
 ];
 export const DropDownTranslator = ({ word, setTranslatedWord }) => {
   const [curLanguage, setCurLanguage] = useState("en");
@@ -81,8 +81,10 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
       onClick(e);
     }}
     className="translator-link"
+    style={{color:"black"}}
   >
     {children}
+    <span className="d-none d-md-inline">Translate</span>
   </a>
 ));
 
