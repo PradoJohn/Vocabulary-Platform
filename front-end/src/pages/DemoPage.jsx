@@ -84,6 +84,8 @@ const DemoPage = () => {
         const response = await api.delete(`word/saved_words/${id}`)
         if(response.status ===200){
           setIsFavorite(!isFavorite)
+          setWordDetails({})
+          getWordDetails(word)
         }
       }
     }catch(error){
@@ -128,6 +130,7 @@ const DemoPage = () => {
     getWordDetails(word);
     setAiTextResponse([]);
     getSavedFavorites(word);
+    setTranslatedWord("")
   }, [user, word]);
 
   
@@ -165,7 +168,6 @@ const DemoPage = () => {
             {/* ****************End of Dropdown************** */}
 
             {/* Adding and Deleting Favorites Button and checks if Premium is True  */}
-            {isPremium? (
               <Button 
               className="float-end"
               variant="transparent"
@@ -173,7 +175,6 @@ const DemoPage = () => {
               >
               {isFavorite? <MdFavorite className="heart" size={30}/>: <MdFavoriteBorder size={30}/> }
             </Button>
-            ):null}
             {/* ********End of favorites Button*********** */}
 
             <h3 className="text-center">

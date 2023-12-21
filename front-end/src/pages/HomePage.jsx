@@ -32,7 +32,7 @@ const HomePage = () => {
             <hr />
             <div className="text-center">
               <h3>"{randomWord}"</h3>
-              <Button  id= "search-button" className='mt-2' as={Link} to="/demo/">Try View Definition</Button>
+              <Button  id= "search-button" className='mt-2' as={Link} to="/demo/">View Definition</Button>
             </div>
             <hr/>
             <ul>

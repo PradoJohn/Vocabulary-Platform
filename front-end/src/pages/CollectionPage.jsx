@@ -50,7 +50,7 @@ const CollectionPage = () => {
       navigate("/demo/")
     }
   };
-
+ 
   useEffect(() => {
     if (!user) {
       navigate('/register/');
