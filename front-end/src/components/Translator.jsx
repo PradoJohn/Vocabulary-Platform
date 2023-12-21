@@ -32,7 +32,7 @@ export const DropDownTranslator = ({ word, setTranslatedWord }) => {
         url: 'https://text-translator2.p.rapidapi.com/translate',
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
-          'X-RapidAPI-Key':'86eb1cd6d6mshea67072103ee1e9p1c9300jsn1ee2e2778682',
+          'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY,
           'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com',
         },
         data: encodedParams,
