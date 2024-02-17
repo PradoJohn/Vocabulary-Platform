@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'back_end_config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vocabusy_db',
+        'NAME': 'wordfinity_db',
     }
 }
 
