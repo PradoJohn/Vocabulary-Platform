@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
 import { Link} from "react-router-dom";
 import { api } from "../utilities";
 import { Navbar, Container, Nav, DropdownButton, Dropdown, ButtonGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { TbVocabulary, TbPremiumRights  } from "react-icons/tb";
+import { TbVocabulary} from "react-icons/tb";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiSettings } from "react-icons/ci";

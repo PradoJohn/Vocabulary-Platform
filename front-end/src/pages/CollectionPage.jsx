@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../utilities';
 import {
   Row,
   Card,
-  CardBody,
   Table,
   Button,
   Pagination,

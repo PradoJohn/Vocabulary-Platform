@@ -1,5 +1,5 @@
 import { api } from "../utilities";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardBody, CardHeader } from "react-bootstrap";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import "./AccountPage.css";

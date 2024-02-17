@@ -8,7 +8,7 @@ from user_profile.models import UserProfile
 # Imported Library
 from rest_framework import status
 from rest_framework.response import Response
-from django.shortcuts import render
+#from django.shortcuts import render
 import re
 from spellchecker import SpellChecker
 

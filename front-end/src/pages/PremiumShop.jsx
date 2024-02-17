@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../utilities";
 import { Container, Card, CardBody, Row, Col } from "react-bootstrap";
