@@ -137,7 +137,13 @@ const DemoPage = () => {
   useEffect(() => {
     // remounts when retrieving new word Details
   }, [wordDetails]);
-  
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      // Trigger the search action when the Enter key is pressed
+      handleSearch();
+    }
+  };
 
   // 1 Row, 1 Search Container and 1 Card Exists In this Return
   return (
@@ -152,6 +158,7 @@ const DemoPage = () => {
             id="search-bar"
             placeholder="Search a Word..."
             onChange={(e) => setSearchWord(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
           <Button id="search-button" onClick={handleSearch}>
             <GoSearch size={35}/>
@@ -173,7 +180,7 @@ const DemoPage = () => {
               variant="transparent"
               onClick={()=>{isFavorite ? deleteFromFavorites(): addToFavorites(word) }}
               >
-              {isFavorite? <MdFavorite className="heart" size={30}/>: <MdFavoriteBorder size={30}/> }
+              {isFavorite? <MdFavorite className="heart m-0" size={30}/>: <MdFavoriteBorder size={30}/> }
             </Button>
             {/* ********End of favorites Button*********** */}
 

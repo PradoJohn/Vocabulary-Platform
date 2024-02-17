@@ -1,6 +1,8 @@
 import openai
+from back_end_config.settings import env
 
-openai.api_key = ""
+openai.api_key = env.get("OPENAI_KEY")
+# openai.api_key = ""
 
 def generate_image(prompt):
     try:
